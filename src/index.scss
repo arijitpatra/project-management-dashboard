@@ -5,12 +5,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 1rem;
+  color: #31393f;
 }
 
 body,
 button,
 input {
   font-family: $font-family, sans-serif;
+}
+
+button,
+input,
+.card-component,
+.board-component {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
 }
 
 .d-f {
@@ -27,4 +37,16 @@ input {
 
 .m-05-0 {
   margin: 0.5rem 0;
+}
+
+.m-b-2d5 {
+  margin-bottom: 2.5rem;
+}
+
+.j-c-sb {
+  justify-content: space-between;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

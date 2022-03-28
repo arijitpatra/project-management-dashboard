@@ -21,12 +21,12 @@ const x = [
 function App() {
   const [boards, setBoards] = useState(x);
 
-  const addCard = (title) => {
+  const addCard = (boardTitle, cardTitle, cardText) => {
     const updatedData = boards.map((item) => {
-      if (item.title === title) {
+      if (item.title === boardTitle) {
         item.cards.push({
-          title: "nchchcj",
-          text: "80nsio73en 837e s8ydhbsd uyd",
+          title: cardTitle,
+          text: cardText,
         });
       }
       return item;
@@ -34,11 +34,11 @@ function App() {
     setBoards(updatedData);
   };
 
-  const addBoard = () => {
+  const addBoard = (title) => {
     setBoards((prevState) => [
       ...prevState,
       {
-        title: "Board 2",
+        title: title,
         cards: [],
       },
     ]);
@@ -53,11 +53,11 @@ function App() {
             key={index}
             title={board.title}
             cards={board.cards}
-            onBtnClick={() => addCard(board.title)}
+            onBtnClick={(title, text) => addCard(board.title, title, text)}
           />
         );
       })}
-      <BoardComponent onBtnClick={addBoard} />
+      <BoardComponent onBtnClick={(title) => addBoard(title)} />
     </div>
   );
 }
