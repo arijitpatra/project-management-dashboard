@@ -21,7 +21,6 @@ const BoardComponent = ({
     } else {
       onBtnClick(titleInput.current.value);
       titleInput.current.value = null;
-      textInput.current.value = null;
     }
   };
 
