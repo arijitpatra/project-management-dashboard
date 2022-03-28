@@ -3,7 +3,13 @@ import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import CardComponent from "../CardComponent/CardComponent";
 import "./BoardComponent.scss";
 
-const BoardComponent = ({ title = "", cards = [], onBtnClick }) => {
+const BoardComponent = ({
+  title = "",
+  cards = [],
+  onBtnClick,
+  cardDelete,
+  boardDelete,
+}) => {
   let titleInput = useRef(null);
   let textInput = useRef(null);
 
@@ -24,17 +30,20 @@ const BoardComponent = ({ title = "", cards = [], onBtnClick }) => {
       {title.length > 0 && (
         <div className="d-f j-c-sb m-b-2d5">
           <h3 className="m-05-0">{title}</h3>
-          <h3 className="m-05-0 cursor-pointer">X</h3>
+          <h3 className="m-05-0 cursor-pointer" onClick={boardDelete}>
+            X
+          </h3>
         </div>
       )}
 
       {cards.length > 0 && title.length > 0
-        ? cards.map((item, index) => {
+        ? cards.map((card, index) => {
             return (
               <CardComponent
-                title={item.title}
-                text={item.text}
-                key={item.title + index}
+                title={card.title}
+                text={card.text}
+                key={card.title + index}
+                onCardDelete={() => cardDelete(card.id)}
               />
             );
           })
@@ -56,12 +65,14 @@ const BoardComponent = ({ title = "", cards = [], onBtnClick }) => {
           />
         </div>
       ) : (
-        <input
-          placeholder="enter list title"
-          type="text"
-          maxLength={15}
-          ref={titleInput}
-        />
+        <div className="d-f f-d-c">
+          <input
+            placeholder="enter list title"
+            type="text"
+            maxLength={15}
+            ref={titleInput}
+          />
+        </div>
       )}
 
       <ButtonComponent

@@ -4,15 +4,23 @@ import BoardComponent from "./components/BoardComponent/BoardComponent";
 
 const x = [
   {
-    title: "Board 1",
+    id: 1,
+    title: "Teams",
     cards: [
       {
-        title: "something",
-        text: "loreiuyrm hsd jhyd sdishudisd djjdjdh",
+        id: 1,
+        title: "Engineering",
+        text: "Our weapons are HTML, CSS, JavaScript",
       },
       {
-        title: "funny",
-        text: "maaaar maaar maar sale ko maar",
+        id: 2,
+        title: "Design",
+        text: "Our weapons is Figma",
+      },
+      {
+        id: 2,
+        title: "Business",
+        text: "Our weapons are Excel and Data",
       },
     ],
   },
@@ -25,6 +33,7 @@ function App() {
     const updatedData = boards.map((item) => {
       if (item.title === boardTitle) {
         item.cards.push({
+          id: item.cards.length + 1,
           title: cardTitle,
           text: cardText,
         });
@@ -38,10 +47,26 @@ function App() {
     setBoards((prevState) => [
       ...prevState,
       {
+        id: prevState.length + 1,
         title: title,
         cards: [],
       },
     ]);
+  };
+
+  const handleCardDelete = (boardTitle, cardId) => {
+    const updatedData = boards.map((item) => {
+      if (item.title === boardTitle) {
+        item.cards = item.cards.filter((card) => card.id !== cardId);
+      }
+      return item;
+    });
+    setBoards(updatedData);
+  };
+
+  const handleBoardDelete = (boardId) => {
+    const updatedData = boards.filter((board) => board.id !== boardId);
+    setBoards(updatedData);
   };
 
   return (
@@ -54,6 +79,8 @@ function App() {
             title={board.title}
             cards={board.cards}
             onBtnClick={(title, text) => addCard(board.title, title, text)}
+            cardDelete={(id) => handleCardDelete(board.title, id)}
+            boardDelete={() => handleBoardDelete(board.id)}
           />
         );
       })}

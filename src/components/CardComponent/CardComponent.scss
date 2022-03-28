@@ -2,6 +2,11 @@
   background: white;
   padding: 1rem;
   margin: 0.5rem 0;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+    transition: all 0.25s ease-in-out;
+  }
   &:last-of-type {
     margin-bottom: 2.5rem;
   }
