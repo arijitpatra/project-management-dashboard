@@ -21,15 +21,34 @@ const x = [
 function App() {
   const [boards, setBoards] = useState(x);
 
+  const addCard = () => {
+    console.log("card");
+  };
+
+  const addBoard = () => {
+    setBoards((item) => [
+      ...item,
+      {
+        title: "Board 2",
+        cards: [],
+      },
+    ]);
+  };
+
   return (
     <div className="App">
       <h2>Dashboard</h2>
       {boards.map((board, index) => {
         return (
-          <BoardComponent key={index} title={board.title} cards={board.cards} />
+          <BoardComponent
+            key={index}
+            title={board.title}
+            cards={board.cards}
+            onBtnClick={addCard}
+          />
         );
       })}
-      <BoardComponent />
+      <BoardComponent onBtnClick={addBoard} />
     </div>
   );
 }

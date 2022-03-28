@@ -1,5 +1,6 @@
 .board-component {
-  display: inline-table;
+  display: inline-block;
+  vertical-align: top;
   padding: 1rem;
   background: aliceblue;
   margin: 0.5rem;
