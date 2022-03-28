@@ -71,7 +71,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>Dashboard</h2>
+      <h1>Dashboard</h1>
       {boards.map((board, index) => {
         return (
           <BoardComponent
