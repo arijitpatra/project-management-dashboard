@@ -18,7 +18,7 @@ const x = [
         text: "Our weapons is Figma",
       },
       {
-        id: 2,
+        id: 3,
         title: "Business",
         text: "Our weapons are Excel and Data",
       },
