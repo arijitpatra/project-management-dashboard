@@ -21,13 +21,22 @@ const x = [
 function App() {
   const [boards, setBoards] = useState(x);
 
-  const addCard = () => {
-    console.log("card");
+  const addCard = (title) => {
+    const updatedData = boards.map((item) => {
+      if (item.title === title) {
+        item.cards.push({
+          title: "nchchcj",
+          text: "80nsio73en 837e s8ydhbsd uyd",
+        });
+      }
+      return item;
+    });
+    setBoards(updatedData);
   };
 
   const addBoard = () => {
-    setBoards((item) => [
-      ...item,
+    setBoards((prevState) => [
+      ...prevState,
       {
         title: "Board 2",
         cards: [],
@@ -44,7 +53,7 @@ function App() {
             key={index}
             title={board.title}
             cards={board.cards}
-            onBtnClick={addCard}
+            onBtnClick={() => addCard(board.title)}
           />
         );
       })}
