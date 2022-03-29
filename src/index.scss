@@ -7,7 +7,7 @@ body {
   padding: 2.5rem;
   color: #31393f;
 
-  @media (max-width: 1440px) {
+  @media (max-width: $max-width) {
     padding: 1rem;
     .board-component {
       width: auto;

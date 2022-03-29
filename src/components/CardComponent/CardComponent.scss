@@ -1,3 +1,5 @@
+@import "../../styles/variables.scss";
+
 .card-component {
   background: white;
   padding: 1rem;
@@ -6,8 +8,8 @@
   &:hover {
     transform: scale(1.05);
     transition: all 0.25s ease-in-out;
-    @media screen and (min-width: 550px) and (max-width: 1440px) {
-      transform: scale(1.01);
+    @media screen and (min-width: $min-width) and (max-width: $max-width) {
+      transform: scale(1.02);
     }
   }
   &:last-of-type {
