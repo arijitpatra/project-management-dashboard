@@ -1,31 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { data } from "../utils/utils";
 
-// need to think differently about the ids
 const initialState = {
-  generatedId: 5,
-  boards: JSON.parse(localStorage.getItem("boards")) || [
-    {
-      id: 1,
-      title: "Teams",
-      cards: [
-        {
-          id: 2,
-          title: "Engineering",
-          text: "Our weapons are HTML, CSS, JavaScript",
-        },
-        {
-          id: 3,
-          title: "Design",
-          text: "Our weapons are Figma and Sketch",
-        },
-        {
-          id: 4,
-          title: "Business",
-          text: "Our weapons are Excel and Data",
-        },
-      ],
-    },
-  ],
+  generatedId: data.generatedId,
+  boards: JSON.parse(localStorage.getItem("boards")) || data.boards,
 };
 
 export const globalSlice = createSlice({
@@ -93,30 +71,8 @@ export const globalSlice = createSlice({
       });
     },
     resetDataAction: (state) => {
-      state.boards = [
-        {
-          id: 1,
-          title: "Teams",
-          cards: [
-            {
-              id: 2,
-              title: "Engineering",
-              text: "Our weapons are HTML, CSS, JavaScript",
-            },
-            {
-              id: 3,
-              title: "Design",
-              text: "Our weapons are Figma and Sketch",
-            },
-            {
-              id: 4,
-              title: "Business",
-              text: "Our weapons are Excel and Data",
-            },
-          ],
-        },
-      ];
-      state.generatedId = 5;
+      state.boards = data.boards;
+      state.generatedId = data.generatedId;
     },
   },
 });
