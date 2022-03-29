@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.scss";
 import BoardComponent from "./components/BoardComponent/BoardComponent";
 
 // need to think differently about the ids
-const x = [
+const initialBoardsData = [
   {
     id: 1,
     title: "Teams",
@@ -28,14 +28,20 @@ const x = [
 ];
 
 function App() {
-  // TODO: localStorage setting and retrieving
-  const [boards, setBoards] = useState(x);
+  const [boards, setBoards] = useState(
+    JSON.parse(localStorage.getItem("boards")) || initialBoardsData
+  );
+  const [automaticIds, setAutomaticIds] = useState(3);
+
+  const storeDataInLocalStorage = useCallback(() => {
+    localStorage.setItem("boards", JSON.stringify(boards));
+  }, [boards]);
 
   const addCard = (boardTitle, cardTitle, cardText) => {
     const updatedData = boards.map((item) => {
       if (item.title === boardTitle) {
         item.cards.push({
-          id: item.cards.length + 1,
+          id: automaticIds + 1,
           title: cardTitle,
           text: cardText,
         });
@@ -43,17 +49,19 @@ function App() {
       return item;
     });
     setBoards(updatedData);
+    setAutomaticIds(automaticIds + 1);
   };
 
   const addBoard = (title) => {
     setBoards((prevState) => [
       ...prevState,
       {
-        id: prevState.length + 1,
+        id: automaticIds + 1,
         title: title,
         cards: [],
       },
     ]);
+    setAutomaticIds(automaticIds + 1);
   };
 
   const handleCardDelete = (boardTitle, cardId) => {
@@ -84,18 +92,19 @@ function App() {
     const updatedData = x.map((item) => {
       if (item.title === boardTitle) {
         item.cards.push({
-          id: item.cards.length + 1,
+          id: automaticIds + 1,
           title: cardTitle,
           text: cardText,
         });
       }
       return item;
     });
-    console.log(updatedData);
-    // const updatedData = // logic for filter
 
     setBoards(updatedData);
+    setAutomaticIds(automaticIds + 1);
   };
+
+  useEffect(() => storeDataInLocalStorage(), [boards, storeDataInLocalStorage]);
 
   return (
     <div className="App">
