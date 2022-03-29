@@ -12,8 +12,7 @@ import { BoardComponent } from "./components/BoardComponent";
 import "./App.scss";
 
 function App() {
-  const boards = useSelector((state) => state.global.boards);
-  const generatedId = useSelector((state) => state.global.generatedId);
+  const { boards, generatedId } = useSelector((state) => state.global);
   const dispatch = useDispatch();
 
   const addBoard = (title) => {
