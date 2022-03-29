@@ -1,6 +1,7 @@
 import { useRef } from "react";
-import ButtonComponent from "../ButtonComponent/ButtonComponent";
-import CardComponent from "../CardComponent/CardComponent";
+import { ButtonComponent } from "../ButtonComponent";
+import { CardComponent } from "../CardComponent";
+import { onDragOver, onDrop, onDragStart } from "../../utils/utils";
 import "./BoardComponent.scss";
 
 const BoardComponent = ({
@@ -25,20 +26,8 @@ const BoardComponent = ({
     }
   };
 
-  const onDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const onDrop = (e) => {
-    e.preventDefault();
-    const data = e.dataTransfer.getData("text");
-    // e.currentTarget.appendChild(document.getElementById(data));
-    e.dataTransfer.clearData("text");
-    onDragAndDropChange(data, title);
-  };
-
-  const onDragStart = (e) => {
-    e.dataTransfer.setData("text/plain", e.target.id);
+  const onDropEvent = (e) => {
+    if (title.length > 0) onDrop(e, title, onDragAndDropChange);
   };
 
   return (
@@ -55,7 +44,7 @@ const BoardComponent = ({
         </div>
       )}
 
-      <div onDrop={onDrop} onDragOver={onDragOver}>
+      <div onDrop={onDropEvent} onDragOver={onDragOver}>
         {cards.length > 0 && title.length > 0
           ? cards.map((card, index) => {
               return (
@@ -75,7 +64,7 @@ const BoardComponent = ({
       {title.length > 0 ? (
         <div className="d-f f-d-c">
           <input
-            onDrop={onDrop}
+            onDrop={onDropEvent}
             onDragOver={onDragOver}
             placeholder="enter card title"
             type="text"
@@ -84,7 +73,7 @@ const BoardComponent = ({
             ref={titleInput}
           />
           <input
-            onDrop={onDrop}
+            onDrop={onDropEvent}
             onDragOver={onDragOver}
             placeholder="enter card description"
             type="text"
@@ -94,7 +83,7 @@ const BoardComponent = ({
       ) : (
         <div className="d-f f-d-c">
           <input
-            onDrop={onDrop}
+            onDrop={onDropEvent}
             onDragOver={onDragOver}
             placeholder="enter board title"
             type="text"
@@ -107,10 +96,10 @@ const BoardComponent = ({
       <ButtonComponent
         label={title.length > 0 ? "add card" : "add title"}
         handleClick={handleClickAndGetInputValues}
-        classNa="m-05-0"
+        classNameProp="m-05-0"
       />
     </section>
   );
 };
 
-export default BoardComponent;
+export { BoardComponent };

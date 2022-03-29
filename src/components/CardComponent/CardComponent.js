@@ -23,4 +23,4 @@ const CardComponent = ({ title, text, onCardDelete, onDragStart }) => {
   );
 };
 
-export default CardComponent;
+export { CardComponent };

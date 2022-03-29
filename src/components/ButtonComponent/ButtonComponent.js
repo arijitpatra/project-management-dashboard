@@ -1,11 +1,14 @@
 import "./ButtonComponent.scss";
 
-const ButtonComponent = ({ label, handleClick, classNa = "" }) => {
+const ButtonComponent = ({ label, handleClick, classNameProp = "" }) => {
   return (
-    <button className={"button-component " + classNa} onClick={handleClick}>
+    <button
+      className={"button-component " + classNameProp}
+      onClick={handleClick}
+    >
       {label}
     </button>
   );
 };
 
-export default ButtonComponent;
+export { ButtonComponent };

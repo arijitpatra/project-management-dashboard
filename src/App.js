@@ -8,7 +8,7 @@ import {
   dragAndDropAction,
   resetDataAction,
 } from "./redux/globalSlice";
-import BoardComponent from "./components/BoardComponent/BoardComponent";
+import { BoardComponent } from "./components/BoardComponent";
 import "./App.scss";
 
 function App() {
