@@ -6,7 +6,7 @@ const CardComponent = ({ title, text, onCardDelete, onDragStart }) => {
       className="card-component"
       draggable={true}
       onDragStart={onDragStart}
-      id={title + text}
+      id={title + "*" + text}
     >
       <div className="d-f j-c-sb">
         <h5 className="m-05-0">{title}</h5>

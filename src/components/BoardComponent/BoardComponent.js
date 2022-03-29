@@ -9,6 +9,7 @@ const BoardComponent = ({
   onBtnClick,
   cardDelete,
   boardDelete,
+  onDragAndDropChange,
 }) => {
   let titleInput = useRef(null);
   let textInput = useRef(null);
@@ -32,9 +33,9 @@ const BoardComponent = ({
   const onDrop = (e) => {
     e.preventDefault();
     const data = e.dataTransfer.getData("text");
-    console.log(data + title);
-    e.currentTarget.appendChild(document.getElementById(data));
+    // e.currentTarget.appendChild(document.getElementById(data));
     e.dataTransfer.clearData("text");
+    onDragAndDropChange(data, title);
   };
 
   const onDragStart = (e) => {
@@ -60,7 +61,7 @@ const BoardComponent = ({
                   title={card.title}
                   text={card.text}
                   key={card.title + index}
-                  onCardDelete={() => cardDelete(card.id)}
+                  onCardDelete={() => cardDelete(title, card.id)}
                   draggable={true}
                   onDragStart={onDragStart}
                 />

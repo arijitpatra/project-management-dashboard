@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.scss";
 import BoardComponent from "./components/BoardComponent/BoardComponent";
 
+// need to think differently about the ids
 const x = [
   {
     id: 1,
@@ -27,6 +28,7 @@ const x = [
 ];
 
 function App() {
+  // TODO: localStorage setting and retrieving
   const [boards, setBoards] = useState(x);
 
   const addCard = (boardTitle, cardTitle, cardText) => {
@@ -69,6 +71,32 @@ function App() {
     setBoards(updatedData);
   };
 
+  const handleDragAndDropChange = (textData, boardTitle) => {
+    const [cardTitle, cardText] = textData.split("*");
+    const x = boards.map((item) => {
+      const cards = item.cards.filter(
+        (i) => i.title !== cardTitle && i.text !== cardText
+      );
+      item.cards = cards;
+      return item;
+    });
+
+    const updatedData = x.map((item) => {
+      if (item.title === boardTitle) {
+        item.cards.push({
+          id: item.cards.length + 1,
+          title: cardTitle,
+          text: cardText,
+        });
+      }
+      return item;
+    });
+    console.log(updatedData);
+    // const updatedData = // logic for filter
+
+    setBoards(updatedData);
+  };
+
   return (
     <div className="App">
       <h1>Dashboard</h1>
@@ -79,8 +107,11 @@ function App() {
             title={board.title}
             cards={board.cards}
             onBtnClick={(title, text) => addCard(board.title, title, text)}
-            cardDelete={(id) => handleCardDelete(board.title, id)}
+            cardDelete={(boardTitle, id) => handleCardDelete(boardTitle, id)}
             boardDelete={() => handleBoardDelete(board.id)}
+            onDragAndDropChange={(textData, title) =>
+              handleDragAndDropChange(textData, title)
+            }
           />
         );
       })}
