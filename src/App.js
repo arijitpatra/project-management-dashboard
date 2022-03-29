@@ -16,13 +16,26 @@ function App() {
   const dispatch = useDispatch();
 
   const addBoard = (title) => {
-    dispatch(addBoardAction({ id: generatedId, title }));
+    if (title.trim() !== "") {
+      dispatch(addBoardAction({ id: generatedId, title: title.trim() }));
+    } else {
+      alert("please enter values");
+    }
   };
 
   const addCard = (boardTitle, cardTitle, cardText) => {
-    dispatch(
-      addCardAction({ id: generatedId, cardTitle, cardText, boardTitle })
-    );
+    if (cardTitle.trim() !== "" && cardText.trim() !== "") {
+      dispatch(
+        addCardAction({
+          id: generatedId,
+          cardTitle: cardTitle.trim(),
+          cardText: cardText.trim(),
+          boardTitle,
+        })
+      );
+    } else {
+      alert("please enter values");
+    }
   };
 
   const handleBoardDelete = (boardId) => {
