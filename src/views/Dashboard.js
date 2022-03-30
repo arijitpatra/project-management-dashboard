@@ -58,7 +58,7 @@ const Dashboard = () => {
     dispatch(dragAndDropAction({ textData, boardId }));
   };
 
-  const handleOnDrop = (e, boardTitle, boardId) => {
+  const handleOnDrop = (e, boardTitle = "", boardId = undefined) => {
     if (boardTitle.length > 0) onDrop(e, boardId, handleDragAndDropChange);
   };
 
@@ -103,7 +103,7 @@ const Dashboard = () => {
     <BoardComponent>
       <div className="d-f f-d-c">
         <input
-          onDrop={(e) => handleOnDrop(e, "", "")}
+          onDrop={(e) => handleOnDrop(e)}
           onDragOver={onDragOver}
           placeholder="enter board title"
           type="text"
