@@ -57,18 +57,18 @@ const Dashboard = () => {
     dispatch(dragAndDropAction({ textData, boardTitle }));
   };
 
+  const onDropEvent = (e, boardTitle) => {
+    if (boardTitle.length > 0) onDrop(e, boardTitle, handleDragAndDropChange);
+  };
+
   useEffect(
     () => localStorage.setItem("boards", JSON.stringify(boards)),
     [boards]
   );
 
-  const onDropEvent = (e, boardTitle) => {
-    if (boardTitle.length > 0) onDrop(e, boardTitle, handleDragAndDropChange);
-  };
-
   return (
     <>
-      <h1>
+      <h1 data-testid="dashboard-heading">
         Dashboard <code onClick={() => dispatch(resetDataAction())}>reset</code>
       </h1>
 
@@ -93,7 +93,7 @@ const Dashboard = () => {
                         onCardDelete={() =>
                           handleCardDelete(board.title, card.id)
                         }
-                        draggable={true}
+                        isDraggable={true}
                         onDragStart={onDragStart}
                       />
                     );
@@ -121,7 +121,7 @@ const Dashboard = () => {
 
             <ButtonComponent
               label="add card"
-              handleClick={() => {
+              onClick={() => {
                 addCard(
                   board.title,
                   cardTitleInputRefs[index].current.value,
@@ -150,7 +150,7 @@ const Dashboard = () => {
 
         <ButtonComponent
           label="add title"
-          handleClick={() => {
+          onClick={() => {
             addBoard(titleInputRef.current.value);
             titleInputRef.current.value = null;
           }}
