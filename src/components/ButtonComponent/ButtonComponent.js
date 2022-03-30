@@ -3,7 +3,7 @@ import "./ButtonComponent.scss";
 const ButtonComponent = ({ label, onClick, classNameProp = "" }) => {
   return (
     <button
-      className={"button-component " + classNameProp}
+      className={"button-component cursor-pointer " + classNameProp}
       onClick={onClick}
       data-testid="button-component"
     >

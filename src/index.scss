@@ -5,7 +5,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 2.5rem;
-  color: #31393f;
+  color: $black;
 
   @media (max-width: $max-width) {
     padding: 1rem;
@@ -38,6 +38,8 @@ input,
   border: none;
   border-radius: 5px;
 }
+
+// style helpers --- start
 
 .d-f {
   display: flex;
@@ -72,3 +74,5 @@ input,
     color: $red;
   }
 }
+
+// style helpers --- end

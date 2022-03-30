@@ -30,12 +30,12 @@ export const onDragOver = (e) => {
   e.preventDefault();
 };
 
-export const onDrop = (e, title, onDragAndDropChange) => {
+export const onDrop = (e, boardId, onDragAndDropChange) => {
   e.preventDefault();
   const data = e.dataTransfer.getData("text");
   // e.currentTarget.appendChild(document.getElementById(data));
   e.dataTransfer.clearData("text");
-  onDragAndDropChange(data, title);
+  onDragAndDropChange(data, boardId);
 };
 
 export const onDragStart = (e) => {

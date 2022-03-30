@@ -1,3 +1,4 @@
+// NOTE: This file can be made even more modularized and shorter
 import { useRef, useEffect, createRef } from "react";
 import { ButtonComponent } from "../components/ButtonComponent";
 import { CardComponent } from "../components/CardComponent";
@@ -19,10 +20,10 @@ const Dashboard = () => {
   const titleInputRef = useRef(null);
   let cardTitleInputRefs = useRef([]);
   let cardTextInputRefs = useRef([]);
-  cardTitleInputRefs = boards.map((board, index) => createRef());
-  cardTextInputRefs = boards.map((board, index) => createRef());
+  cardTitleInputRefs = boards.map(() => createRef());
+  cardTextInputRefs = boards.map(() => createRef());
 
-  const addBoard = (title) => {
+  const handleAddBoard = (title) => {
     if (title.trim() !== "") {
       dispatch(addBoardAction({ id: generatedId, title: title.trim() }));
     } else {
@@ -30,14 +31,14 @@ const Dashboard = () => {
     }
   };
 
-  const addCard = (boardTitle, cardTitle, cardText) => {
+  const handleAddCard = (boardId, cardTitle, cardText) => {
     if (cardTitle.trim() !== "" && cardText.trim() !== "") {
       dispatch(
         addCardAction({
           id: generatedId,
           cardTitle: cardTitle.trim(),
           cardText: cardText.trim(),
-          boardTitle,
+          boardId,
         })
       );
     } else {
@@ -49,17 +50,78 @@ const Dashboard = () => {
     dispatch(deleteBoardAction({ boardId }));
   };
 
-  const handleCardDelete = (boardTitle, cardId) => {
-    dispatch(deleteCardAction({ boardTitle, cardId }));
+  const handleCardDelete = (cardId, boardId) => {
+    dispatch(deleteCardAction({ cardId, boardId }));
   };
 
-  const handleDragAndDropChange = (textData, boardTitle) => {
-    dispatch(dragAndDropAction({ textData, boardTitle }));
+  const handleDragAndDropChange = (textData, boardId) => {
+    dispatch(dragAndDropAction({ textData, boardId }));
   };
 
-  const onDropEvent = (e, boardTitle) => {
-    if (boardTitle.length > 0) onDrop(e, boardTitle, handleDragAndDropChange);
+  const handleOnDrop = (e, boardTitle, boardId) => {
+    if (boardTitle.length > 0) onDrop(e, boardId, handleDragAndDropChange);
   };
+
+  const getAddCardInputsAndButton = (board, index) => (
+    <>
+      <div className="d-f f-d-c">
+        <input
+          onDrop={(e) => handleOnDrop(e, board.title, board.id)}
+          onDragOver={onDragOver}
+          placeholder="enter card title"
+          type="text"
+          maxLength={15}
+          className="m-05-0"
+          ref={cardTitleInputRefs[index]}
+        />
+        <input
+          onDrop={(e) => handleOnDrop(e, board.title, board.id)}
+          onDragOver={onDragOver}
+          placeholder="enter card description"
+          type="text"
+          ref={cardTextInputRefs[index]}
+        />
+      </div>
+
+      <ButtonComponent
+        label="add card"
+        onClick={() => {
+          handleAddCard(
+            board.id,
+            cardTitleInputRefs[index].current.value,
+            cardTextInputRefs[index].current.value
+          );
+          cardTitleInputRefs[index].current.value = null;
+          cardTextInputRefs[index].current.value = null;
+        }}
+        classNameProp="m-05-0"
+      />
+    </>
+  );
+
+  const getBoardAdder = () => (
+    <BoardComponent>
+      <div className="d-f f-d-c">
+        <input
+          onDrop={(e) => handleOnDrop(e, "", "")}
+          onDragOver={onDragOver}
+          placeholder="enter board title"
+          type="text"
+          maxLength={15}
+          ref={titleInputRef}
+        />
+      </div>
+
+      <ButtonComponent
+        label="add title"
+        onClick={() => {
+          handleAddBoard(titleInputRef.current.value);
+          titleInputRef.current.value = null;
+        }}
+        classNameProp="m-05-0"
+      />
+    </BoardComponent>
+  );
 
   useEffect(
     () => localStorage.setItem("boards", JSON.stringify(boards)),
@@ -73,26 +135,33 @@ const Dashboard = () => {
       </h1>
 
       {boards.map((board, index) => {
+        const { id: boardId, title: boardTitle, cards: boardCards } = board;
+
         return (
           <BoardComponent
-            title={board.title}
+            title={boardTitle}
             key={index}
-            onBoardDelete={() => handleBoardDelete(board.id)}
+            onBoardDelete={() => handleBoardDelete(boardId)}
           >
             <div
-              onDrop={(e) => onDropEvent(e, board.title)}
+              onDrop={(e) => handleOnDrop(e, boardTitle, boardId)}
               onDragOver={onDragOver}
             >
-              {board.cards.length > 0 && board.title.length > 0
-                ? board.cards.map((card, index) => {
+              {boardCards.length > 0 && boardTitle.length > 0
+                ? boardCards.map((card, index) => {
+                    const {
+                      id: cardId,
+                      title: cardTitle,
+                      text: cardText,
+                    } = card;
+
                     return (
                       <CardComponent
-                        title={card.title}
-                        text={card.text}
-                        key={card.title + index}
-                        onCardDelete={() =>
-                          handleCardDelete(board.title, card.id)
-                        }
+                        id={cardId}
+                        title={cardTitle}
+                        text={cardText}
+                        key={cardTitle + index}
+                        onCardDelete={() => handleCardDelete(cardId, boardId)}
                         isDraggable={true}
                         onDragStart={onDragStart}
                       />
@@ -100,63 +169,13 @@ const Dashboard = () => {
                   })
                 : ""}
             </div>
-            <div className="d-f f-d-c">
-              <input
-                onDrop={(e) => onDropEvent(e, board.title)}
-                onDragOver={onDragOver}
-                placeholder="enter card title"
-                type="text"
-                maxLength={15}
-                className="m-05-0"
-                ref={cardTitleInputRefs[index]}
-              />
-              <input
-                onDrop={(e) => onDropEvent(e, board.title)}
-                onDragOver={onDragOver}
-                placeholder="enter card description"
-                type="text"
-                ref={cardTextInputRefs[index]}
-              />
-            </div>
 
-            <ButtonComponent
-              label="add card"
-              onClick={() => {
-                addCard(
-                  board.title,
-                  cardTitleInputRefs[index].current.value,
-                  cardTextInputRefs[index].current.value
-                );
-                cardTitleInputRefs[index].current.value = null;
-                cardTextInputRefs[index].current.value = null;
-              }}
-              classNameProp="m-05-0"
-            />
+            {getAddCardInputsAndButton(board, index)}
           </BoardComponent>
         );
       })}
 
-      <BoardComponent>
-        <div className="d-f f-d-c">
-          <input
-            onDrop={(e) => onDropEvent(e, "")}
-            onDragOver={onDragOver}
-            placeholder="enter board title"
-            type="text"
-            maxLength={15}
-            ref={titleInputRef}
-          />
-        </div>
-
-        <ButtonComponent
-          label="add title"
-          onClick={() => {
-            addBoard(titleInputRef.current.value);
-            titleInputRef.current.value = null;
-          }}
-          classNameProp="m-05-0"
-        />
-      </BoardComponent>
+      {getBoardAdder()}
     </>
   );
 };

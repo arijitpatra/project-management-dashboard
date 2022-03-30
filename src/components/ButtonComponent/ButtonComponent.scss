@@ -1,8 +1,9 @@
+@import "../../styles/variables.scss";
+
 .button-component {
-  background: #31393f;
-  color: white;
+  background: $black;
+  color: $white;
   display: block;
-  cursor: pointer;
   &:active {
     transform: scale(0.9);
   }

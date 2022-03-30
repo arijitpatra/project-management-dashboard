@@ -1,13 +1,13 @@
 @import "../../styles/variables.scss";
 
 .card-component {
-  background: white;
+  background: $white;
   padding: 1rem;
   margin: 0.5rem 0;
-  transition: all 0.25s ease-in-out;
+  transition: $transition;
   &:hover {
     transform: scale(1.05);
-    transition: all 0.25s ease-in-out;
+    transition: $transition;
     @media screen and (min-width: $min-width) and (max-width: $max-width) {
       transform: scale(1.02);
     }

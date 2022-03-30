@@ -1,6 +1,7 @@
 import "./CardComponent.scss";
 
 const CardComponent = ({
+  id,
   title,
   text,
   onCardDelete,
@@ -12,7 +13,7 @@ const CardComponent = ({
       className="card-component"
       draggable={isDraggable}
       onDragStart={onDragStart}
-      id={title + "*" + text}
+      id={id + "*" + title + "*" + text}
       data-testid="card-component"
     >
       <div className="d-f j-c-sb">
@@ -32,5 +33,4 @@ const CardComponent = ({
     </section>
   );
 };
-
 export { CardComponent };

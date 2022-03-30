@@ -1,8 +1,10 @@
+@import "../../styles/variables.scss";
+
 .board-component {
   display: inline-block;
   vertical-align: top;
   padding: 1rem;
-  background: #ededed;
+  background: $gray;
   margin: 0.5rem;
   width: 350px;
   &:first-of-type {
